@@ -17,6 +17,7 @@ interface TableRow {
 
 const DataTable = () => {
   const renderTree = (nodes: TableRow[]) => (
+   
     <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
       <TableRow>
         {Object.keys(nodes[0].data).map((item, i) => (
@@ -25,27 +26,30 @@ const DataTable = () => {
           </TableCell>
         ))}
       </TableRow>
-
-      {nodes.map((node, index) => (
+     
+            {nodes.map((node, index) => (
         <TreeItem
           key={index}
-          nodeId={node.data.Name || node.data['Relative ID']}
+          nodeId={Object.keys(node.data)[0]}
           label={Object.entries(node.data).map(([key, value]) => (
             <TableCell style={{ width: '150px' }} key={key}>
               {value}
             </TableCell>
           ))}
         >
+        
+
           <TableCell style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
             {' '}
             {Object.keys(node.kids)}
           </TableCell>
-          {Object.entries(node.kids).map(([key, value]) =>
+          {Object.entries(node.kids)?.map(([key, value]) =>
             value?.records ? renderTree(value?.records) : null,
           )}
         </TreeItem>
       ))}
     </TreeView>
+   
   )
   return (
     <TableContainer component={Paper}>
